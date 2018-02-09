@@ -1,0 +1,8 @@
+/.vagrant/
+
+/nginxconf/*
+!/nginxconf/.gitkeep
+
+/sql-imports/*
+!/sql-imports/sql-import.sh
+!/sql-imports/.gitkeep
