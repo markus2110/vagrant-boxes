@@ -7,7 +7,7 @@ sudo apt-get upgrade
 sudo apt-get install -y nginx mysql-server memcached curl nfs-kernel-server git
 
 # Install PHP
-sudo apt-get install -y php7.0 php7.0-fpm php7.0-mysql php7.0-common php7.0-curl php7.0-dev php7.0-intl php7.0-mbstring php7.0-mcrypt php7.0-pgsql php7.0-xml php7.0-zip php-memcached php-xdebug
+sudo apt-get install -y php7.0 php7.0-fpm php7.0-mysql php7.0-common php7.0-curl php7.0-dev php7.0-intl php7.0-mbstring php7.0-mcrypt php7.0-gd php7.0-xml php7.0-zip php7.0-ldap php-memcached php-xdebug php-imagick
 
 # Install Composer
 echo "installing composer";
