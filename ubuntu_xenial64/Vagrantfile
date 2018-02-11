@@ -55,7 +55,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "/var/www", "/vagrant_data"
+  config.vm.synced_folder "/var/www", "/vagrant_data", :type => "nfs"
 
   #f true, agent forwarding over SSH connections is enabled. Defaults to false.
   config.ssh.forward_agent = true
@@ -76,7 +76,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 	vb.linked_clone = true
   end
-  
+
   # View the documentation for the provider you are using for more
   # information on available options.
 
@@ -94,7 +94,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #  config.vm.provision "shell", path: "sql-imports/sql-import.sh"
 
   config.vm.provision "chef_solo" do |chef|
+	chef.cookbooks_path = "../chef_cookbooks"
+
+    chef.add_recipe "environment_essentials"
     chef.add_recipe "nginx"
+#    chef.add_recipe "php"
   end
 
 
