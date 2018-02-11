@@ -83,34 +83,42 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
+  config.vm.provision "chef_solo" do |chef|
+	chef.cookbooks_path = "../chef_cookbooks"
+
+    chef.add_recipe "environment_essentials"
+    chef.add_recipe "nginx"
+#    chef.add_recipe "php"
+  end
+
 
   # Base Setup
-  config.vm.provision "shell", path: "config/setup.sh"
+#  config.vm.provision "shell", path: "config/setup.sh"
   # nginx config
-  config.vm.provision "shell", path: "config/nginx-config.sh"
+#  config.vm.provision "shell", path: "config/nginx-config.sh"
   # Mysql config
-  config.vm.provision "shell", path: "config/mysql-config.sh"
+#  config.vm.provision "shell", path: "config/mysql-config.sh"
   # Mysql DB Import
-  config.vm.provision "shell", path: "sql-imports/sql-import.sh"
+#  config.vm.provision "shell", path: "sql-imports/sql-import.sh"
 
 
-  config.vm.provision "shell", inline: <<-SHELL
+#  config.vm.provision "shell", inline: <<-SHELL
 	# Configure XDebug
 	# [xdebug]
-	XDEBUG_CONTENT=$'zend_extension=xdebug.so
+#	XDEBUG_CONTENT=$'zend_extension=xdebug.so
 
-zend_extension="/usr/lib/php/20151012/xdebug.so"
-xdebug.remote_enable=1
+#zend_extension="/usr/lib/php/20151012/xdebug.so"
+#xdebug.remote_enable=1
 #xdebug.remote_handler=dbgp
-xdebug.remote_mode=req
-xdebug.remote_host=192.168.33.1
-xdebug.remote_port=9000'
-sudo echo "$XDEBUG_CONTENT" > /etc/php/7.0/mods-available/xdebug.ini
+#xdebug.remote_mode=req
+#xdebug.remote_host=192.168.33.1
+#xdebug.remote_port=9000'
+#sudo echo "$XDEBUG_CONTENT" > /etc/php/7.0/mods-available/xdebug.ini
 
 
-	sudo service php7.0-fpm restart	
-	sudo service nginx restart
-  SHELL
+#	sudo service php7.0-fpm restart
+#	sudo service nginx restart
+#  SHELL
 
 
 end
