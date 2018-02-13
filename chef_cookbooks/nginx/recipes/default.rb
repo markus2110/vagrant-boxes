@@ -33,28 +33,40 @@ template "#{node['nginx']['default']['document_root']}/index.html" do
   mode '0755'
 end
 
+# Create the info page at the Nginx default doc root
+template "#{node['nginx']['default']['document_root']}/phpinfo.php" do
+  source 'phpinfo.php.erb'
+  cookbook 'php'
+  owner 'vagrant'
+  group 'vagrant'
+  mode '0755'
+end
+
+
 # check is nginx default symlink is set ?
-nginxDefaultConfig = '/etc/nginx/sites-available/default'
+nginxDefaultConfig = "#{node['nginx']['default']['config_path']}sites-available/#{node['nginx']['default']['config_name']}"
 if File.exists?(nginxDefaultConfig)
   file nginxDefaultConfig do
     action :delete
   end
 end
 
+# check is nginx default symlink is set ?
+nginxDefaultConfigSymlink = "#{node['nginx']['default']['config_path']}sites-enabled/#{node['nginx']['default']['config_name']}"
+if File.exists?(nginxDefaultConfigSymlink)
+  link nginxDefaultConfigSymlink do
+    action :delete
+  end
+end
+
 # Add the config template
-template "/etc/nginx/sites-available/default.conf" do
+template "#{node['nginx']['default']['config_path']}sites-available/default.conf" do
   source 'default.conf.erb'
 end
 
-# check is nginx default symlink is set ?
-nginxDefaultConfigSymlink = '/etc/nginx/sites-enabled/default'
-link nginxDefaultConfigSymlink do
-  action :delete
-  only_if "test -L #{nginxDefaultConfigSymlink}"
-end
 
 link nginxDefaultConfigSymlink do
-  to "/etc/nginx/sites-available/default.conf"
+  to "#{node['nginx']['default']['config_path']}sites-available/default.conf"
   link_type :symbolic
 end
 
