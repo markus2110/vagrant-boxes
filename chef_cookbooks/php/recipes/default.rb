@@ -4,33 +4,36 @@
 #
 # Copyright:: 2018, The Authors, All Rights Reserved.
 
-$php_packages = [
-    'php',
-    'php-fpm',
-    'php-mysql',
-    'php-common',
-    'php-curl',
-    'php-dev',
-    'php-intl',
-    'php-mbstring',
-    'php-mcrypt',
-    'php-gd',
-    'php-xml',
-    'php-zip',
-    'php-memcached',
-    'php-xdebug',
-    'php-imagick'
+php_version = node['php']['default']['version']
+
+php_packages = [
+    "php#{php_version}",
+    "php#{php_version}-fpm",
+    "php#{php_version}-mysql",
+    "php#{php_version}-common",
+    "php#{php_version}-curl",
+    "php#{php_version}-dev",
+    "php#{php_version}-intl",
+    "php#{php_version}-mbstring",
+    "php#{php_version}-mcrypt",
+    "php#{php_version}-gd",
+    "php#{php_version}-xml",
+    "php#{php_version}-zip",
+
+    "php-memcached",
+    "php-imagick",
+    "php-xdebug"
 ]
 
-for $pack in $php_packages do
-    package $pack do
+for php_package in php_packages do
+    package php_package do
       action :install
     end
 end
 
 
-# Start php-fpm Service
-service 'php7.0-fpm' do
+# Start php#{php_version}-fpm Service
+service "php#{php_version}-fpm" do
   supports status: true
   action [:enable, :start]
 end
