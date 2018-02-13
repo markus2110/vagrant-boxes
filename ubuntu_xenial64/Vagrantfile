@@ -1,15 +1,15 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-VAGRANTFILE_API_VERSION 		= "2"
-VAGRANTFILE_BOX 				= "ubuntu/xenial64"
-VAGRANTFILE_HOST_IP				= "192.168.33.1"
-VAGRANTFILE_NETWORK_IP			= "192.168.33.33"
-VAGRANTFILE_NETWORK_HOST_PORT	= "9191"
+VAGRANTFILE_API_VERSION         = "2"
+VAGRANTFILE_BOX                 = "ubuntu/xenial64"
+VAGRANTFILE_HOST_IP             = "192.168.33.1"
+VAGRANTFILE_NETWORK_IP          = "192.168.33.33"
+VAGRANTFILE_NETWORK_HOST_PORT   = "9191"
 
-VM_NAME			= "ubuntu_xenial64"
-VM_SHOW_GUI 	= false
-VM_MEMORY 		= 2048
+VM_NAME     = "ubuntu_xenial64"
+VM_SHOW_GUI = false
+VM_MEMORY 	= 2048
 VM_CPUS			= 4
 
 
@@ -66,15 +66,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   config.vm.provider "virtualbox" do |vb|
     # The display name at the GUI
-	vb.name 	= VM_NAME
+    vb.name = VM_NAME
     # Display the VirtualBox GUI when booting the machine
-    vb.gui 		= VM_SHOW_GUI
+    vb.gui = VM_SHOW_GUI
     # Customize the amount of memory on the VM:
-    vb.memory 	= VM_MEMORY
+    vb.memory = VM_MEMORY
     # Customize the amount of CPUS to use by the VM:
-	vb.cpus 	= VM_CPUS
+    vb.cpus = VM_CPUS
 
-	vb.linked_clone = true
+#    vb.linked_clone = true
   end
 
   # View the documentation for the provider you are using for more
@@ -94,8 +94,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #  config.vm.provision "shell", path: "sql-imports/sql-import.sh"
 
   config.vm.provision "chef_solo" do |chef|
-	chef.cookbooks_path = "../chef_cookbooks"
-
+    chef.cookbooks_path = "../chef_cookbooks"
     chef.add_recipe "environment_essentials"
     chef.add_recipe "nginx"
 #    chef.add_recipe "php"
