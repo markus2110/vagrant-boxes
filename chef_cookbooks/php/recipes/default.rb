@@ -25,10 +25,9 @@ php_packages = [
     "php-xdebug"
 ]
 
-for php_package in php_packages do
-    package php_package do
-      action :install
-    end
+package 'Install PHP Packages' do
+  action :install
+  package_name php_packages
 end
 
 
@@ -37,3 +36,27 @@ service "php#{php_version}-fpm" do
   supports status: true
   action [:enable, :start]
 end
+
+
+
+script "Install Composer" do
+  interpreter 'bash'
+  user 'root'
+  code <<-EOF
+    curl -sS https://getcomposer.org/installer | php;
+    mv composer.phar /usr/local/bin/composer;
+    composer --version
+  EOF
+end
+
+script "Install NodeJs" do
+  interpreter 'bash'
+  user 'root'
+  code <<-EOF
+    curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+    sudo npm install -g grunt
+  EOF
+end
+
+# Install Nodejs
