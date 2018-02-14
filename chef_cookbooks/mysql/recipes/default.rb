@@ -15,6 +15,15 @@ service 'start the mysql service' do
   action [:enable, :start]
 end
 
+
+template '/etc/mysql/mysql.conf.d/mysqld_bind_address.cnf' do
+  source 'mysqld_bind_address.cnf.erb'
+  owner 'root'
+  group 'root'
+  mode '0744'
+end
+
+
 # Create Mysql Users
 include_recipe 'mysql::createusers'
 
