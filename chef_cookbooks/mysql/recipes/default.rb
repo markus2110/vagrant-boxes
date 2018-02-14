@@ -13,10 +13,11 @@ service 'start the mysql service' do
   service_name 'mysql'
   supports :start => true, :stop => true, :restart => true, :reload => true, :status => true
   action [:enable, :start]
+  subscribes :restart, "template[#{node['mysql']['default']['config_dir']}/mysqld_bind_address.cnf]", :immediately
 end
 
 
-template '/etc/mysql/mysql.conf.d/mysqld_bind_address.cnf' do
+template "#{node['mysql']['default']['config_dir']}/mysqld_bind_address.cnf" do
   source 'mysqld_bind_address.cnf.erb'
   owner 'root'
   group 'root'
