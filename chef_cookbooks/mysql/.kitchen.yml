@@ -1,8 +1,6 @@
 ---
 driver:
   name: vagrant
-  network:
-    - ["private_network", {ip: "192.168.34.34"}]
 
 provisioner:
   name: chef_zero
@@ -15,8 +13,17 @@ verifier:
   name: inspec
 
 platforms:
-  - name: ubuntu/xenial64
-#  - name: debian/stretch64
+  - name: ubuntu
+    driver:
+      box: ubuntu/xenial64
+      network:
+        - ["private_network", {ip: "192.168.34.34"}]
+
+  - name: debian
+    driver:
+      box: debian/stretch64
+      network:
+        - ["private_network", {ip: "192.168.34.35"}]
 
 suites:
   - name: default
