@@ -70,7 +70,10 @@ link nginxDefaultConfigSymlink do
   link_type :symbolic
 end
 
+
+include_recipe 'nginx::add_custom_configs'
+
 # restart the nginx
 service 'nginx' do
-  action :restart
+  action :reload
 end
