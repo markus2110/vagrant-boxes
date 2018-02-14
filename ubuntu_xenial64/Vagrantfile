@@ -95,9 +95,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision "chef_solo" do |chef|
     chef.cookbooks_path = "../chef_cookbooks"
-#    chef.add_recipe "environment_essentials"
-#    chef.add_recipe "php"
-#    chef.add_recipe "nginx"
+    chef.add_recipe "environment_essentials"
+    chef.add_recipe "php"
+    chef.add_recipe "nginx"
     chef.add_recipe "mysql"
   end
 
