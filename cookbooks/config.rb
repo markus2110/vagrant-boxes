@@ -10,8 +10,8 @@ $VAGRANTFILE_SSH_AGENT_FORWARD  = true
 
 $VM_NAME        = "ubuntu_xenial64"
 $VM_SHOW_GUI    = false
-$VM_MEMORY 	    = 2048
-$VM_CPUS		= 2
+$VM_MEMORY 	    = 1024
+$VM_CPUS		= 1
 
 $VM_SYNC_FOLDERS = [
     { :HOST_PATH => "/var/www", :GUEST_PATH => "/vagrant_data", :TYPE => "nfs" },
