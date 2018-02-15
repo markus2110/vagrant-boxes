@@ -10,7 +10,6 @@ if node['php']['default']['packages']
     php_packages = node['php']['default']['packages']
 else
     php_packages = [
-        "php#{php_version}",
         "php#{php_version}-fpm",
         "php#{php_version}-mysql",
         "php#{php_version}-common",
@@ -22,10 +21,13 @@ else
         "php#{php_version}-gd",
         "php#{php_version}-xml",
         "php#{php_version}-zip",
+        "php#{php_version}-soap",
 
         "php-memcached",
         "php-imagick",
-        "php-xdebug"
+        "php-xdebug",
+
+        "php#{php_version}-cli",
     ]
 end
 
@@ -36,10 +38,21 @@ package 'Install PHP Packages' do
 end
 
 
+template "Installing the xdebug-settings.ini in #{node['php']['default']['fpm-conf']}" do
+  path "#{node['php']['default']['fpm-conf']}/xdebug-settings.ini"
+  source 'xdebug-settings.ini.erb'
+end
+
+template "Installing the php-dev-settings.ini in #{node['php']['default']['fpm-conf']}" do
+  path "#{node['php']['default']['fpm-conf']}/php-dev-settings.ini"
+  source 'php-dev-settings.ini.erb'
+end
+
+
 # Start php#{php_version}-fpm Service
 service "php#{php_version}-fpm" do
   supports status: true
-  action [:enable, :start]
+  action [:enable, :start, :restart]
 end
 
 
