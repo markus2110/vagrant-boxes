@@ -1,30 +1,19 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-
-VAGRANTFILE_API_VERSION       = "2"
-VAGRANTFILE_BOX               = "debian/stretch64"
-VAGRANTFILE_HOST_IP           = "192.168.33.1"
-VAGRANTFILE_NETWORK_IP        = "192.168.33.20"
-VAGRANTFILE_NETWORK_HOST_PORT	= "9090"
-
-VM_NAME     = "debian_9_php7.0"
-VM_SHOW_GUI = false
-VM_MEMORY 	= 2048
-VM_CPUS			= 4
-
+require './config.rb'
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+Vagrant.configure($VAGRANTFILE_API_VERSION) do |config|
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
   # https://docs.vagrantup.com.
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = VAGRANTFILE_BOX
+  config.vm.box = $VAGRANTFILE_BOX
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -35,7 +24,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
-  config.vm.network "forwarded_port", guest: 80, host: VAGRANTFILE_NETWORK_HOST_PORT
+  config.vm.network "forwarded_port", guest: $VAGRANTFILE_NETWORK_GUEST_PORT, host: $VAGRANTFILE_NETWORK_HOST_PORT
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
@@ -44,7 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network "private_network", ip: VAGRANTFILE_NETWORK_IP
+  config.vm.network "private_network", ip: $VAGRANTFILE_NETWORK_IP
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -55,10 +44,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "/var/www", "/vagrant_data", :type => "nfs"
+  $VM_SYNC_FOLDERS.each do |syncConfig|
+    config.vm.synced_folder syncConfig[:HOST_PATH], syncConfig[:GUEST_PATH], :type => syncConfig[:TYPE]
+  end
+
 
   #f true, agent forwarding over SSH connections is enabled. Defaults to false.
-  config.ssh.forward_agent = true
+  config.ssh.forward_agent = $VAGRANTFILE_SSH_AGENT_FORWARD
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -66,15 +58,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   config.vm.provider "virtualbox" do |vb|
     # The display name at the GUI
-    vb.name = VM_NAME
+    vb.name = $VM_NAME
     # Display the VirtualBox GUI when booting the machine
-    vb.gui = VM_SHOW_GUI
+    vb.gui = $VM_SHOW_GUI
     # Customize the amount of memory on the VM:
-    vb.memory = VM_MEMORY
+    vb.memory = $VM_MEMORY
     # Customize the amount of CPUS to use by the VM:
-    vb.cpus = VM_CPUS
+    vb.cpus = $VM_CPUS
 
-    vb.linked_clone = false
+#    vb.linked_clone = true
   end
 
   # View the documentation for the provider you are using for more
@@ -84,40 +76,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "chef_solo" do |chef|
-    chef.cookbooks_path = "../chef_cookbooks"
-    chef.add_recipe "environment_essentials"
-    chef.add_recipe "nginx"
-#    chef.add_recipe "php"
+    chef.cookbooks_path = "../cookbooks/_chef_resources"
+    chef.run_list = [
+        "recipe[environment_essentials]",
+        "recipe[php]",
+        "recipe[nginx]",
+        "recipe[mysql]"
+    ]
   end
-
-
-  # Base Setup
-#  config.vm.provision "shell", path: "config/setup.sh"
-  # nginx config
-#  config.vm.provision "shell", path: "config/nginx-config.sh"
-  # Mysql config
-#  config.vm.provision "shell", path: "config/mysql-config.sh"
-  # Mysql DB Import
-#  config.vm.provision "shell", path: "sql-imports/sql-import.sh"
-
-
-#  config.vm.provision "shell", inline: <<-SHELL
-	# Configure XDebug
-	# [xdebug]
-#	XDEBUG_CONTENT=$'zend_extension=xdebug.so
-
-#zend_extension="/usr/lib/php/20151012/xdebug.so"
-#xdebug.remote_enable=1
-#xdebug.remote_handler=dbgp
-#xdebug.remote_mode=req
-#xdebug.remote_host=192.168.33.1
-#xdebug.remote_port=9000'
-#sudo echo "$XDEBUG_CONTENT" > /etc/php/7.0/mods-available/xdebug.ini
-
-
-#	sudo service php7.0-fpm restart
-#	sudo service nginx restart
-#  SHELL
-
-
 end

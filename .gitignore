@@ -1,6 +1,8 @@
 .vagrant/
 
 /*/*.log
+/*/config.rb
+!/cookbook/config.rb
 
 # Chef
 .delivery/
