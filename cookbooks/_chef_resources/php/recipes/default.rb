@@ -48,6 +48,13 @@ template "Installing the php-dev-settings.ini in #{node['php']['default']['fpm-c
   source 'php-dev-settings.ini.erb'
 end
 
+# remove the xdebug ini from cli
+xdebugIniFile = "#{node['php']['default']['cli-conf']}/20-xdebug.ini"
+link 'Removing xdebug.ini from php cli modules' do
+  action :delete
+  target_file xdebugIniFile
+  only_if "test -f #{xdebugIniFile}"  
+end
 
 # Start php#{php_version}-fpm Service
 service "php#{php_version}-fpm" do
