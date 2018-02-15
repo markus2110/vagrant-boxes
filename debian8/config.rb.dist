@@ -1,0 +1,13 @@
+require '../cookbooks/config.rb'
+
+# overwrites the vagrant settings in ../cookbook/config.rb
+$VAGRANTFILE_BOX                = "debian/jessie64"
+$VAGRANTFILE_NETWORK_IP         = "192.168.33.36"
+$VAGRANTFILE_NETWORK_HOST_PORT  = "9292"
+
+# VM Sync Folders
+$VM_SYNC_FOLDERS = [
+    { :HOST_PATH => "/from/path1", :GUEST_PATH => "/to/path1", :TYPE => "nfs" },
+    { :HOST_PATH => "/from/path2", :GUEST_PATH => "/to/path2", :TYPE => "nfs" },
+    { :HOST_PATH => "/from/path3", :GUEST_PATH => "/to/path3", :TYPE => "nfs" },
+]
