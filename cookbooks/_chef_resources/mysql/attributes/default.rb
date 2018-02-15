@@ -16,6 +16,11 @@ default['mysql']['default']['users'] = {
     :grand      => 'ALL',
     :root       => true
   },
+  "user" => {
+    :password   => 'password',
+    :grand      => 'ALL',
+    :root       => false
+  },
   "webuser" => {
     :password   => 'password',
     :grand      => 'ALL',
