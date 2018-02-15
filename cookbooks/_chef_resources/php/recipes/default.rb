@@ -6,24 +6,29 @@
 
 php_version = node['php']['default']['version']
 
-php_packages = [
-    "php#{php_version}",
-    "php#{php_version}-fpm",
-    "php#{php_version}-mysql",
-    "php#{php_version}-common",
-    "php#{php_version}-curl",
-    "php#{php_version}-dev",
-    "php#{php_version}-intl",
-    "php#{php_version}-mbstring",
-    "php#{php_version}-mcrypt",
-    "php#{php_version}-gd",
-    "php#{php_version}-xml",
-    "php#{php_version}-zip",
+if node['php']['default']['packages']
+    php_packages = node['php']['default']['packages']
+else
+    php_packages = [
+        "php#{php_version}",
+        "php#{php_version}-fpm",
+        "php#{php_version}-mysql",
+        "php#{php_version}-common",
+        "php#{php_version}-curl",
+        "php#{php_version}-dev",
+        "php#{php_version}-intl",
+        "php#{php_version}-mbstring",
+        "php#{php_version}-mcrypt",
+        "php#{php_version}-gd",
+        "php#{php_version}-xml",
+        "php#{php_version}-zip",
 
-    "php-memcached",
-    "php-imagick",
-    "php-xdebug"
-]
+        "php-memcached",
+        "php-imagick",
+        "php-xdebug"
+    ]
+end
+
 
 package 'Install PHP Packages' do
   action :install
