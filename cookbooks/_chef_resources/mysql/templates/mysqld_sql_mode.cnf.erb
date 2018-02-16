@@ -1,0 +1,9 @@
+[mysqld]
+
+# MySQL 5.7.5 and up implements detection of functional dependence.
+# If the ONLY_FULL_GROUP_BY SQL mode is enabled (which it is by default), MySQL rejects queries for which the select list, HAVING condition,
+# or ORDER BY list refer to nonaggregated columns that are neither named in the GROUP BY clause nor are functionally dependent on them.
+#(Before 5.7.5, MySQL does not detect functional dependency and ONLY_FULL_GROUP_BY is not enabled by default.
+# For a description of pre-5.7.5 behavior, see the MySQL 5.6 Reference Manual.)
+# @see https://dev.mysql.com/doc/refman/5.7/en/group-by-handling.html
+sql_mode = <%= node['mysql']['default']['sql_mode'] %>
