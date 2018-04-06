@@ -1,13 +1,8 @@
 .vagrant/
 
-/*/nginxconf/*
-!/*/nginxconf/.gitkeep
-
-/*/sql-imports/*
-!/*/sql-imports/sql-import.sh
-!/*/sql-imports/.gitkeep
-
 /*/*.log
+/*/config.rb
+!/cookbook/config.rb
 
 # Chef
 .delivery/
