@@ -7,6 +7,8 @@
 
 node.default['php']['default']['version'] =    '5'
 node.default['php']['default']['fpm-socked'] = '/var/run/php5-fpm.sock'
+node.default['php']['default']['fpm-conf'] = '/etc/php5/fpm/conf.d'
+node.default['php']['default']['cli-conf'] = '/etc/php5/cli/conf.d'
 node.default['php']['default']['packages'] = [
     "php#{node['php']['default']['version']}",
     "php#{node['php']['default']['version']}-fpm",
