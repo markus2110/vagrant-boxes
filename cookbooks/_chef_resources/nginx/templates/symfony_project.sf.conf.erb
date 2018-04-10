@@ -1,7 +1,7 @@
 server {
 	listen 				80;
 	server_name		~^(?<project>.+)\.<%= node['nginx']['default']['server_suffix'] %>\.sf$;
-	root 					<%= node['nginx']['default']['document_root'] %>/projects/$project/web;
+	root 					<%= node['nginx']['default']['project_root'] %>/projects/$project/web;
 
 	client_max_body_size	150m;
 

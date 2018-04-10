@@ -39,7 +39,8 @@ server {
 	# Add index.php to the list if you are using PHP
 	index index.html index.htm index.nginx-debian.html;
 
-	server_name _;
+	#server_name _;
+	server_name  <%= node['nginx']['default']['server_suffix'] %>.loc;
 
 	location / {
 		autoindex <%= node['nginx']['default']['document_root_autoindex'] %>;

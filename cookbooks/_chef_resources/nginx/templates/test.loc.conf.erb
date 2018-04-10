@@ -1,7 +1,7 @@
 
 server {
   server_name  test.<%= node['nginx']['default']['server_suffix'] %>.loc;
-	root         <%= node['nginx']['default']['document_root'] %>/test;
+	root         <%= node['nginx']['default']['project_root'] %>/test;
 
 	index index.html index.htm index.php;
 
