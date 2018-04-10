@@ -38,25 +38,5 @@ service "php#{php_version}-fpm" do
   action [:enable, :start, :restart]
 end
 
-
-
-script "Install Composer" do
-  interpreter 'bash'
-  user 'root'
-  code <<-EOF
-    curl -sS https://getcomposer.org/installer | php;
-    mv composer.phar /usr/local/bin/composer;
-    composer --version
-  EOF
-end
-
-# Install Nodejs
-#script "Install NodeJs" do
-#  interpreter 'bash'
-#  user 'root'
-#  code <<-EOF
-#    curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
-#    sudo apt-get install -y nodejs
-#    sudo npm install -g grunt gulp
-#  EOF
-#end
+include_recipe 'php::composer'
+include_recipe 'php::nodejs'
