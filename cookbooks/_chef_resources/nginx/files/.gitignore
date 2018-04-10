@@ -1,3 +1,0 @@
-custom_configs/*.*
-!custom_configs/test.loc.conf
-!custom_configs/symfony_project.loc.conf
