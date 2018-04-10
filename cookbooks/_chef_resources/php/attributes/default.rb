@@ -48,6 +48,8 @@ case node['platform']
       default['php']['default']['packages'][:soap]      = "php#{default['php']['default']['version']}-soap"
       default['php']['default']['packages'][:xml]       = "php#{default['php']['default']['version']}-xml",
       default['php']['default']['packages'][:zip]       = "php#{default['php']['default']['version']}-zip",
+
+      default['php']['default']['packages'][:memcached] = "php-memcached"
       default['php']['default']['packages'][:imagick]   = "php-imagick"
       default['php']['default']['packages'][:xdebug]    = "php-xdebug"
 
