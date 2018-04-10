@@ -4,9 +4,19 @@
 #
 # Copyright:: 2018, The Authors, All Rights Reserved.
 
-node['mysql']['default']['users'].each do |name,config|
+# Remove all remote users
+script "remove mysql remote users" do
+  interpreter 'bash'
+  user 'root'
+  #cwd '/tmp'
+  code <<-EOF
+    echo "DELETE from mysql.user WHERE host='%'; FLUSH PRIVILEGES;" | /usr/bin/mysql -u root;
+  EOF
+end
 
-  createCommand = "CREATE USER IF NOT EXISTS '#{name}'@'%' IDENTIFIED BY '#{config[:password]}';"
+
+node['mysql']['default']['users'].each do |name,config|
+  createCommand = "CREATE USER '#{name}'@'%' IDENTIFIED BY '#{config[:password]}';"
   if config[:root]
     grandCommand  = "GRANT #{config[:grand]} privileges ON *.* TO '#{name}'@'%' WITH GRANT OPTION;"
   else
