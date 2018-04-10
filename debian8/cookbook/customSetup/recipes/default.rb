@@ -3,8 +3,6 @@
 # Recipe:: default
 #
 # Copyright:: 2018, The Authors, All Rights Reserved.
-
-
 node.default['php']['default']['version'] =    '5'
 node.default['php']['default']['fpm-socked'] = '/var/run/php5-fpm.sock'
 node.default['php']['default']['fpm-conf'] = '/etc/php5/fpm/conf.d'
