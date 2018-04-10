@@ -8,22 +8,22 @@ package 'nginx' do
 end
 
 # Remove existing directory
-if Dir.exists?(node['nginx']['default']['document_root'])
-    Chef::Log.info "Directory exitst, will remove '#{node['nginx']['default']['document_root']}' from node"
-    directory node['nginx']['default']['document_root'] do
-      action :delete
-      recursive true
-    end
-end
+#if Dir.exists?(node['nginx']['default']['document_root'])
+#    Chef::Log.info "Directory exitst, will remove '#{node['nginx']['default']['document_root']}' from node"
+#    directory node['nginx']['default']['document_root'] do
+#      action :delete
+#      recursive true
+#    end
+#end
 
 # Create the default document root
-directory node['nginx']['default']['document_root'] do
-  owner 'vagrant'
-  group 'vagrant'
-  mode '0755'
-  recursive true
-  action :create
-end
+#directory node['nginx']['default']['document_root'] do
+#  owner 'vagrant'
+#  group 'vagrant'
+#  mode '0755'
+#  recursive true
+#  action :create
+#end
 
 # create the nginx default index
 template "#{node['nginx']['default']['document_root']}/index.html" do
@@ -43,35 +43,34 @@ template "#{node['nginx']['default']['document_root']}/phpinfo.php" do
 end
 
 
-# check is nginx default symlink is set ?
-nginxDefaultConfig = "#{node['nginx']['default']['config_path']}sites-available/#{node['nginx']['default']['config_name']}"
-if File.exists?(nginxDefaultConfig)
-  file nginxDefaultConfig do
-    action :delete
-  end
-end
-
-# check is nginx default symlink is set ?
-nginxDefaultConfigSymlink = "#{node['nginx']['default']['config_path']}sites-enabled/#{node['nginx']['default']['config_name']}"
-if File.exists?(nginxDefaultConfigSymlink)
-  link nginxDefaultConfigSymlink do
-    action :delete
-  end
-end
-
-# Add the config template
+# Add the default config file
 template "#{node['nginx']['default']['config_path']}sites-available/default.conf" do
   source 'default.conf.erb'
 end
-
-
-link nginxDefaultConfigSymlink do
+link "#{node['nginx']['default']['config_path']}sites-enabled/default" do
   to "#{node['nginx']['default']['config_path']}sites-available/default.conf"
   link_type :symbolic
 end
 
+# Add the symfony project config file
+template "#{node['nginx']['default']['config_path']}sites-available/symfony_project.sf.conf" do
+  source 'symfony_project.sf.conf.erb'
+end
+link "#{node['nginx']['default']['config_path']}sites-enabled/symfony_project.sf.conf" do
+  to "#{node['nginx']['default']['config_path']}sites-available/symfony_project.sf.conf"
+  link_type :symbolic
+end
 
-include_recipe 'nginx::add_custom_configs'
+# Add the symfony project config file
+template "#{node['nginx']['default']['config_path']}sites-available/test.loc.conf" do
+  source 'test.loc.conf.erb'
+end
+link "#{node['nginx']['default']['config_path']}sites-enabled/test.loc.conf" do
+  to "#{node['nginx']['default']['config_path']}sites-available/test.loc.conf"
+  link_type :symbolic
+end
+
+#include_recipe 'nginx::add_custom_configs'
 
 # restart the nginx
 service 'nginx' do

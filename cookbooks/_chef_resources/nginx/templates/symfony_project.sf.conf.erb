@@ -1,7 +1,7 @@
 server {
-	listen 			80;
-	server_name 	~^(?<project>.+)\.vagrant\.sf$;
-	root 			/vagrant_data/projects/$project/web;
+	listen 				80;
+	server_name		~^(?<project>.+)\.<%= node['nginx']['default']['server_suffix'] %>\.sf$;
+	root 					<%= node['nginx']['default']['document_root'] %>/projects/$project/web;
 
 	client_max_body_size	150m;
 
@@ -15,7 +15,7 @@ server {
     # This rule should only be placed on your development environment
     # In production, don't include this and don't deploy app_dev.php or config.php
     location ~ ^/(app_dev|config)\.php(/|$) {
-        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+        fastcgi_pass unix:<%= node['php']['default']['fpm-socked'] %>;
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;
         # When you are using symlinks to link the document root to the
@@ -32,7 +32,7 @@ server {
 
     # PROD
     location ~ ^/app\.php(/|$) {
-        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+        fastcgi_pass unix:<%= node['php']['default']['fpm-socked'] %>;
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;
         # When you are using symlinks to link the document root to the
@@ -61,8 +61,8 @@ server {
 	fastcgi_buffer_size 512k;
 
 	# error_log /var/log/nginx/project_error.log;
-    # access_log /var/log/nginx/project_access.log;
-	error_log 		/vagrant_data/projects/nginx-error-vagrant.log;
-	access_log 		/vagrant_data/projects/nginx-access-vagrant.log;
+  # access_log /var/log/nginx/project_access.log;
+	error_log 		/var/log/nginx/<%= node['nginx']['default']['server_suffix'] %>_error.log;
+	access_log 		/var/log/nginx/<%= node['nginx']['default']['server_suffix'] %>_access.log;
 
 }
