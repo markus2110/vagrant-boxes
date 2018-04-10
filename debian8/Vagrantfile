@@ -78,13 +78,25 @@ Vagrant.configure($VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "chef_solo" do |chef|
     chef.cookbooks_path = [
         "../cookbooks/_chef_resources",
-        "./cookbook"
+#        "./cookbook"
     ]
     chef.run_list = [
-        "recipe[customSetup]",
-#        "recipe[php]",
+#        "recipe[customSetup]",
+        "recipe[environment_essentials]",
+        "recipe[php]",
 #        "recipe[nginx]",
 #        "recipe[mysql]"
     ]
+
+    # Change the XDEBUG Remote host
+    chef.json = {
+      "php" => {
+        "default" => {
+          "xdebug" => {
+            "remote_host" => "192.168.33.1"
+          }
+        }
+      }
+    }
   end
 end
