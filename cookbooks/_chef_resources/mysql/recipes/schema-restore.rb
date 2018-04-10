@@ -37,7 +37,7 @@ Dir.glob("/vagrant/sql_dumps/*.sql").each do |sqlDump|
 end
 
 # Restore Schema
-Dir.glob("#{node['mysql']['default']['sqldump_copy_directory']}/*.sql").each do |sqlDump|
+Dir.glob("#{node['mysql']['default']['sqldump_copy_directory']}*.sql").each do |sqlDump|
   script "Import Dump from #{sqlDump}" do
     interpreter 'bash'
     user 'root'
