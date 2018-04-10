@@ -4,9 +4,15 @@
 #
 # Copyright:: 2018, The Authors, All Rights Reserved.
 
+#if node['platform'] == 'debian' && Gem::Version.new(node['platform_version']) <= Gem::Version.new(8)
+#  Chef::Log.info "Environment Packages for : #{node['platform']}(8)"
+#else
+#  Chef::Log.info "Environment Packages for : #{node['platform']}(#{node['platform_version']})"
+#end
+
 # Update APT repository on Debian and Ubuntu platforms
 apt_update 'daily' do
-    frequency 86_400
+    frequency node['environment_essentials']['update']['frequency']
     action :periodic
 end
 
