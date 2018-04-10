@@ -4,5 +4,7 @@
 /*/config.rb
 !/cookbook/config.rb
 
+/*/sql_dumps/*.sql
+
 # Chef
 .delivery/
