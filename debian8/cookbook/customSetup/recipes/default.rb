@@ -3,8 +3,6 @@
 # Recipe:: default
 #
 # Copyright:: 2018, The Authors, All Rights Reserved.
-
-
 node.default['php']['default']['version'] =    '5'
 node.default['php']['default']['fpm-socked'] = '/var/run/php5-fpm.sock'
 node.default['php']['default']['packages'] = [
@@ -23,6 +21,10 @@ node.default['php']['default']['packages'] = [
     #    "php#{node['php']['default']['version']}-xml",
     #    "php#{node['php']['default']['version']}-zip",
 ]
+
+node.default['php']['default']['fpm-conf'] = '/etc/php5/fpm/conf.d'
+node.default['php']['default']['cli-conf'] = '/etc/php5/cli/conf.d'
+
 
 node.default['mysql']['default']['config_dir'] = '/etc/mysql/conf.d'
 
