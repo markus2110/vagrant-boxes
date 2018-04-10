@@ -5,36 +5,12 @@
 # Copyright:: 2018, The Authors, All Rights Reserved.
 
 php_version = node['php']['default']['version']
-
-if node['php']['default']['packages']
-    php_packages = node['php']['default']['packages']
-else
-    php_packages = [
-        "php#{php_version}-fpm",
-        "php#{php_version}-mysql",
-        "php#{php_version}-common",
-        "php#{php_version}-curl",
-        "php#{php_version}-dev",
-        "php#{php_version}-intl",
-        "php#{php_version}-mbstring",
-        "php#{php_version}-mcrypt",
-        "php#{php_version}-gd",
-        "php#{php_version}-xml",
-        "php#{php_version}-zip",
-        "php#{php_version}-soap",
-
-        "php-memcached",
-        "php-imagick",
-        "php-xdebug",
-
-        "php#{php_version}-cli",
-    ]
-end
+php_packages = node['php']['default']['packages']
 
 
 package 'Install PHP Packages' do
   action :install
-  package_name php_packages
+  package_name php_packages.values
 end
 
 
@@ -53,7 +29,7 @@ xdebugIniFile = "#{node['php']['default']['cli-conf']}/20-xdebug.ini"
 link 'Removing xdebug.ini from php cli modules' do
   action :delete
   target_file xdebugIniFile
-  only_if "test -f #{xdebugIniFile}"  
+  only_if "test -f #{xdebugIniFile}"
 end
 
 # Start php#{php_version}-fpm Service
@@ -74,14 +50,13 @@ script "Install Composer" do
   EOF
 end
 
-script "Install NodeJs" do
-  interpreter 'bash'
-  user 'root'
-  code <<-EOF
-    curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
-    sudo apt-get install -y nodejs
-    sudo npm install -g grunt
-  EOF
-end
-
 # Install Nodejs
+#script "Install NodeJs" do
+#  interpreter 'bash'
+#  user 'root'
+#  code <<-EOF
+#    curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+#    sudo apt-get install -y nodejs
+#    sudo npm install -g grunt gulp
+#  EOF
+#end
