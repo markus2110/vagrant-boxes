@@ -8,22 +8,22 @@ package 'nginx' do
 end
 
 # Remove existing directory
-#if Dir.exists?(node['nginx']['default']['document_root'])
-#    Chef::Log.info "Directory exitst, will remove '#{node['nginx']['default']['document_root']}' from node"
-#    directory node['nginx']['default']['document_root'] do
-#      action :delete
-#      recursive true
-#    end
-#end
+if Dir.exists?(node['nginx']['default']['document_root'])
+    Chef::Log.info "Directory exitst, will remove '#{node['nginx']['default']['document_root']}' from node"
+    directory node['nginx']['default']['document_root'] do
+      action :delete
+      recursive true
+    end
+end
 
 # Create the default document root
-#directory node['nginx']['default']['document_root'] do
-#  owner 'vagrant'
-#  group 'vagrant'
-#  mode '0755'
-#  recursive true
-#  action :create
-#end
+directory node['nginx']['default']['document_root'] do
+  owner 'vagrant'
+  group 'vagrant'
+  mode '0755'
+  recursive true
+  action :create
+end
 
 # create the nginx default index
 template "#{node['nginx']['default']['document_root']}/index.html" do
@@ -70,7 +70,7 @@ link "#{node['nginx']['default']['config_path']}sites-enabled/test.loc.conf" do
   link_type :symbolic
 end
 
-#include_recipe 'nginx::add_custom_configs'
+include_recipe 'nginx::add_custom_configs'
 
 # restart the nginx
 service 'nginx' do
