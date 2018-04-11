@@ -70,6 +70,9 @@ link "#{node['nginx']['default']['config_path']}sites-enabled/test.loc.conf" do
   link_type :symbolic
 end
 
+
+# Add SSL
+include_recipe 'nginx::add_ssl_configs'
 include_recipe 'nginx::add_custom_configs'
 
 # restart the nginx
