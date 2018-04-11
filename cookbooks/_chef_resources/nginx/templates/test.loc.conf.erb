@@ -1,9 +1,22 @@
 
 server {
-  server_name  test.<%= node['nginx']['default']['server_suffix'] %>.loc;
+
+    listen          80;
+    listen          443;
+
+    server_name  test.<%= node['nginx']['default']['server_suffix'] %>.loc;
 	root         <%= node['nginx']['default']['project_root'] %>/test;
 
 	index index.html index.htm index.php;
+
+    # SSL configuration
+    ssl on;
+    ssl_certificate /etc/nginx/conf.d/ssl/server.crt;
+    ssl_certificate_key /etc/nginx/conf.d/ssl/server.key;
+    ssl_session_timeout 5m;
+    ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers "HIGH:!aNULL:!MD5 or HIGH:!aNULL:!MD5:!3DES";
+    ssl_prefer_server_ciphers on;    
 
 	location / {
 		try_files $uri $uri/ =404;
