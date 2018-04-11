@@ -17,3 +17,11 @@ apt_update 'daily' do
 end
 
 include_recipe 'environment_essentials::packages'
+
+
+elasticsearch 9001 
+
+
+elasticsearch 9002 do
+    version "5.3.2"
+end

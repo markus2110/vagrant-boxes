@@ -79,9 +79,9 @@ Vagrant.configure($VAGRANTFILE_API_VERSION) do |config|
     chef.cookbooks_path = "../cookbooks/_chef_resources"
     chef.run_list = [
         "recipe[environment_essentials]",
-        "recipe[php]",
-        "recipe[nginx]",
-        "recipe[mysql]"
+#        "recipe[php]",
+#        "recipe[nginx]",
+#        "recipe[mysql]"
     ]
 
     #
