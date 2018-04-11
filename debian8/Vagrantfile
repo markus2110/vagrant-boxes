@@ -86,34 +86,7 @@ Vagrant.configure($VAGRANTFILE_API_VERSION) do |config|
         "recipe[mysql]"
     ]
 
-    # Change the XDEBUG Remote host
-    chef.json = {
-      "php" => {
-        "default" => {
-          "xdebug" => {
-            "remote_host" => "192.168.33.1"
-          }
-        }
-      }
-
-
-#      ",mysql" => {
-#        "default" => {
-#          "users" => {
-#            # UPDATE the webuser
-#            "webuser" => {
-#              "password" => "********"
-#            },
-#
-#            # Add a new user
-#            "demouser" => {
-#              "password"  => "password",
-#              "grand"     => "ALL",
-#              "root"      => false
-#            }
-#          }
-#        }
-  }
+    chef.json = $CHEF_ATTRIBUTES
 
   end
 end

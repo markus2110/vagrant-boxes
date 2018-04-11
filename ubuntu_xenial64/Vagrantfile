@@ -83,5 +83,8 @@ Vagrant.configure($VAGRANTFILE_API_VERSION) do |config|
         "recipe[nginx]",
         "recipe[mysql]"
     ]
+
+    #
+    chef.json = $CHEF_ATTRIBUTES
   end
 end
