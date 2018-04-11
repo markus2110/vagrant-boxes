@@ -4,8 +4,6 @@
 #
 # Copyright:: 2018, The Authors, All Rights Reserved.
 
-# Create tmp sql dump directory
-
 
 # Copy all SQL files from VAGRANT sync folder
 Dir.glob("/vagrant/nginx/*.conf").each do |nginxconfig|
