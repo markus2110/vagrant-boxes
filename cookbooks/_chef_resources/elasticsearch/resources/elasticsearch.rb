@@ -26,12 +26,26 @@ action :create do
         DONWLOAD_LINK = new_resource.download_path1
     end
 
+
+    case node['platform']
+    when 'debian', 'ubuntu'
+      if node['platform'] == 'debian' && Gem::Version.new(node['platform_version']) < Gem::Version.new(9)
+        JAVA_JDK = "openjdk-7-jre";
+      else
+        JAVA_JDK = "openjdk-8-jre";
+      end
+  
+    when 'redhat', 'centos', 'fedora'
+      Chef::Log.info "#{node['platform']} currently not supported"
+  end      
+
+
     Chef::Log.info "install Elastic search (#{new_resource.version}) on PORT:#{new_resource.port}"
     Chef::Log.info "Download (#{DONWLOAD_LINK}elasticsearch-#{new_resource.version}.deb)"
 
     package 'Install OpenJDK' do
         action :install
-        package_name "openjdk-8-jre"
+        package_name JAVA_JDK
     end        
 
     # Create the download directory
