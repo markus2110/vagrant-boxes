@@ -14,6 +14,6 @@
 #    version "5.3.2"
 #end
 
-elasticsearch 9123 do
+elasticsearch "elasticsearch v1.7.6" do
     version "1.7.6"
 end

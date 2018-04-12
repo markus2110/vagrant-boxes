@@ -38,14 +38,15 @@ end
 
 # Restore Schema
 Dir.glob("#{node['mysql']['default']['sqldump_copy_directory']}*.sql").each do |sqlDump|
-  script "Import Dump from #{sqlDump}" do
-    interpreter 'bash'
-    user 'root'
-    code <<-EOF
-      sudo mysql --user=root --comments < #{sqlDump}
-    EOF
-  end
-end
+   script "Import Dump from #{sqlDump}" do
+     interpreter 'bash'
+     user 'root'
+     code <<-EOF
+        echo "DUMP #{sqlDump}"
+       sudo mysql --user=root --comments < #{sqlDump}
+     EOF
+   end
+ end
 
 
 # Remove the dump directory
