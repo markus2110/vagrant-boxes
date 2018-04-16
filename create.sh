@@ -54,6 +54,33 @@ echo "require '../cookbooks/config.rb'
     }
 }" >> "config.rb"
 
+# create the config.rb.dist file
+echo "require '../cookbooks/config.rb'
+
+# overwrites the vagrant settings in ../cookbook/config.rb
+\$VAGRANTFILE_BOX                = '$VAGRANTFILE_BOX'
+\$VAGRANTFILE_NETWORK_IP         = '$VAGRANTFILE_NETWORK_IP'
+\$VAGRANTFILE_NETWORK_HOST_PORT  = '$VAGRANTFILE_NETWORK_HOST_PORT'
+
+# VM Sync Folders
+\$VM_SYNC_FOLDERS = [
+    { :HOST_PATH => '/from/path1', :GUEST_PATH => '/to/path1', :TYPE => 'nfs' },
+    { :HOST_PATH => '/from/path2', :GUEST_PATH => '/to/path2', :TYPE => 'nfs' },
+    { :HOST_PATH => '/from/path3', :GUEST_PATH => '/to/path3', :TYPE => 'nfs' },
+]
+
+# Overwrite / extend Chef attributes 
+\$CHEF_ATTRIBUTES = {
+    # Set XDEBUG Remote IP
+    'php' => {
+        'default' => {
+            'xdebug' => {
+                'remote_host' => $VAGRANTFILE_HOST_IP
+            }
+        }
+    }
+}" >> "config.rb.dist"
+
 # create the Vagrant file
 echo "# -*- mode: ruby -*-
 # vi: set ft=ruby :
