@@ -3,7 +3,7 @@ resource_name :elasticsearch
 #, name_property: true,
 property :port, String, default: '9200'
 property :version, String, default: '6.2.3'
-property :download_path, String, default: 'https://artifacts.elastic.co/downloads/elasticsearch/'
+property :download_path1, String, default: 'https://artifacts.elastic.co/downloads/elasticsearch/'
 property :download_path2, String, default: 'https://download.elastic.co/elasticsearch/elasticsearch/'
 property :download_dir, String, default: '/tmp/elasticsearch/downloads/'
 
