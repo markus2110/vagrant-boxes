@@ -38,3 +38,8 @@ include_recipe 'mysql::createusers'
 
 # Create Mysql Users
 include_recipe 'mysql::schema-restore'
+
+# restart the nginx
+service 'mysql' do
+  action [:restart]
+end
