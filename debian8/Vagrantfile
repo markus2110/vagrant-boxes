@@ -87,7 +87,7 @@ Vagrant.configure($VAGRANTFILE_API_VERSION) do |config|
         "recipe[elasticsearch]",
     ]
 
-    #chef.json = $CHEF_ATTRIBUTES
+    chef.json = $CHEF_ATTRIBUTES
 
   end
 end

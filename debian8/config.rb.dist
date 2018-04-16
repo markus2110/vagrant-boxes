@@ -11,3 +11,15 @@ $VM_SYNC_FOLDERS = [
     { :HOST_PATH => "/from/path2", :GUEST_PATH => "/to/path2", :TYPE => "nfs" },
     { :HOST_PATH => "/from/path3", :GUEST_PATH => "/to/path3", :TYPE => "nfs" },
 ]
+
+# Overwrite / extend Chef attributes 
+$CHEF_ATTRIBUTES = {
+    # Set XDEBUG Remote IP
+    "php" => {
+        "default" => {
+            "xdebug" => {
+                "remote_host" => $VAGRANTFILE_HOST_IP
+            }
+        }
+    }
+}
