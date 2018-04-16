@@ -9,7 +9,9 @@ case node['platform']
     # Maria DB
     if node['platform'] == 'debian' && Gem::Version.new(node['platform_version']) >= Gem::Version.new(9)
       default['mysql']['default']['config_dir'] = '/etc/mysql/mariadb.conf.d'
-
+    # Ubuntu 16
+    elsif node['platform'] == 'ubuntu' && Gem::Version.new(node['platform_version']) >= Gem::Version.new(16)
+      default['mysql']['default']['config_dir'] = '/etc/mysql/mysql.conf.d'
     # MySQL DB
     else
       default['mysql']['default']['config_dir'] = '/etc/mysql/conf.d'
