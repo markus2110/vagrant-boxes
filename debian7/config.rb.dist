@@ -1,0 +1,25 @@
+require '../cookbooks/config.rb'
+
+# overwrites the vagrant settings in ../cookbook/config.rb
+$VAGRANTFILE_BOX                = 'debian/wheezy64'
+$VAGRANTFILE_NETWORK_IP         = '192.168.33.7'
+$VAGRANTFILE_NETWORK_HOST_PORT  = '9797'
+
+# VM Sync Folders
+$VM_SYNC_FOLDERS = [
+    { :HOST_PATH => '/from/path1', :GUEST_PATH => '/to/path1', :TYPE => 'nfs' },
+    { :HOST_PATH => '/from/path2', :GUEST_PATH => '/to/path2', :TYPE => 'nfs' },
+    { :HOST_PATH => '/from/path3', :GUEST_PATH => '/to/path3', :TYPE => 'nfs' },
+]
+
+# Overwrite / extend Chef attributes 
+$CHEF_ATTRIBUTES = {
+    # Set XDEBUG Remote IP
+    'php' => {
+        'default' => {
+            'xdebug' => {
+                'remote_host' => 192.168.33.1
+            }
+        }
+    }
+}
