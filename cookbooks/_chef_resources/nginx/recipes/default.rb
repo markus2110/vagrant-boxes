@@ -33,6 +33,14 @@ template "#{node['nginx']['default']['document_root']}/index.html" do
   mode '0755'
 end
 
+# create the nginx default index
+template "#{node['nginx']['default']['document_root']}/index.php" do
+  source 'index.php.erb'
+  owner 'vagrant'
+  group 'vagrant'
+  mode '0755'
+end
+
 # Create the info page at the Nginx default doc root
 template "#{node['nginx']['default']['document_root']}/phpinfo.php" do
   source 'phpinfo.php.erb'
