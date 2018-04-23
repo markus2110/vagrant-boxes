@@ -32,11 +32,15 @@ echo "require '../cookbooks/config.rb'
 # overwrites the vagrant settings in ../cookbook/config.rb
 \$VAGRANTFILE_BOX                = '$VAGRANTFILE_BOX'
 \$VAGRANTFILE_NETWORK_IP         = '$VAGRANTFILE_NETWORK_IP'
-\$VAGRANTFILE_NETWORK_HOST_PORT  = '$VAGRANTFILE_NETWORK_HOST_PORT'
 
 \$VM_NAME    = '$VM_NAME'
 \$VM_MEMORY  = $VM_MEMORY
 \$VM_CPUS    = $VM_CPUS
+
+# VM Port forwarding
+\$VM_PORT_FORWARDING = [
+    { :GUEST_PORT => 80, :HOST_PORT => '$VAGRANTFILE_NETWORK_HOST_PORT' }
+]
 
 # VM Sync Folders
 \$VM_SYNC_FOLDERS = [
@@ -60,7 +64,11 @@ echo "require '../cookbooks/config.rb'
 # overwrites the vagrant settings in ../cookbook/config.rb
 \$VAGRANTFILE_BOX                = '$VAGRANTFILE_BOX'
 \$VAGRANTFILE_NETWORK_IP         = '$VAGRANTFILE_NETWORK_IP'
-\$VAGRANTFILE_NETWORK_HOST_PORT  = '$VAGRANTFILE_NETWORK_HOST_PORT'
+
+# VM Port forwarding
+\$VM_PORT_FORWARDING = [
+    { :GUEST_PORT => 80, :HOST_PORT => '$VAGRANTFILE_NETWORK_HOST_PORT' }
+]
 
 # VM Sync Folders
 \$VM_SYNC_FOLDERS = [
@@ -108,7 +116,9 @@ Vagrant.configure(\$VAGRANTFILE_API_VERSION) do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing 'localhost:8080' will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
-  config.vm.network 'forwarded_port', guest: \$VAGRANTFILE_NETWORK_GUEST_PORT, host: \$VAGRANTFILE_NETWORK_HOST_PORT
+  \$VM_PORT_FORWARDING.each do |portConfig|
+    config.vm.network "forwarded_port", guest: portConfig[:GUEST_PORT], host: portConfig[:HOST_PORT]
+  end
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
