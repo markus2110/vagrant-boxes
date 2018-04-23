@@ -71,7 +71,7 @@ action :create do
         not_if { ::File.exist?("#{new_resource.download_dir}elasticsearch-#{new_resource.version}.deb") }
     end
 
-    # Add the symfony project config file
+    # Add the elasticsearch config file
     template "/etc/elasticsearch/elasticsearch.yml" do
         user 'elasticsearch'
         group 'elasticsearch'
@@ -87,10 +87,4 @@ action :create do
     service 'elasticsearch' do
       action [:restart, :start]
     end
-    
-
 end
-
-#################################
-# Create Elastic search
-#################################
