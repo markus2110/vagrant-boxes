@@ -1,3 +1,4 @@
+default['mysql']['default']['schema_restore'] = true
 default['mysql']['default']['sqldump_directory'] = 'files/sql_dumps/'
 default['mysql']['default']['sqldump_copy_directory'] = '/tmp/sql_dumps/'
 default['mysql']['default']['bind-address'] = '0.0.0.0'
