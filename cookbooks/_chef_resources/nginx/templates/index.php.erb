@@ -4,6 +4,7 @@ $projectDir = "<%= node['nginx']['default']['project_root'] %>/projects/";
 $testDir = $projectDir."/../test";
 $plainProjectStructure = "http://%s.%s";
 $sfProjectStructure = "http://%s-sf.%s";
+$sfDevProjectStructure = "http://%s-sf-dev.%s";
 $testStructure = "http://test.%s/%s";
 
 function is_sf_project($path){
@@ -66,6 +67,15 @@ function is_plain_project($path){
             </td>
             <td>(Symfony Project)</td>
           </tr>
+
+          <tr>
+            <td>
+                <?php $url = sprintf($sfDevProjectStructure, $project, $domainname) ?>
+                <a href="<?php echo $url ?>" target="_blank"><?php echo $url ?></a>
+            </td>
+            <td>(Symfony Project)</td>
+          </tr>          
+
           <?php endif; ?>
 
           <?php if(is_plain_project($projectDir."/". $project)) : ?>
