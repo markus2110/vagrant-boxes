@@ -28,16 +28,15 @@ action :create do
 
 
     case node['platform']
-    when 'debian', 'ubuntu'
-      if node['platform'] == 'debian' && Gem::Version.new(node['platform_version']) < Gem::Version.new(9)
-        JAVA_JDK = "openjdk-7-jre";
-      else
-        JAVA_JDK = "openjdk-8-jre";
-      end
-  
-    when 'redhat', 'centos', 'fedora'
-      Chef::Log.info "#{node['platform']} currently not supported"
-  end      
+        when 'debian', 'ubuntu'
+            if node['platform'] == 'debian' && Gem::Version.new(node['platform_version']) < Gem::Version.new(9)
+                JAVA_JDK = "openjdk-7-jre";
+            else
+                JAVA_JDK = "openjdk-8-jre";
+            end
+        when 'redhat', 'centos', 'fedora'
+            Chef::Log.info "#{node['platform']} currently not supported"
+        end
 
 
     Chef::Log.info "install Elastic search (#{new_resource.version}) on PORT:#{new_resource.port}"
@@ -82,9 +81,20 @@ action :create do
             log_path: new_resource.es_log_path,
             port: new_resource.port
         )        
-    end    
+    end
+
+    # Add elasticsearch to startup
+    # STARTUP = "sudo /bin/systemctl daemon-reload && sudo /bin/systemctl enable elasticsearch.service && sudo /bin/systemctl start elasticsearch.service"
+    # script 'elasticsearch on startup' do    
+    #     user 'vagrant'
+    #     group 'vagrant'
+    #     interpreter 'bash'
+    #     code <<-EOH
+    #         #{STARTUP}
+    #     EOH
+    # end
 
     service 'elasticsearch' do
-      action [:restart, :start]
+        action [:enable, :start]
     end
 end
