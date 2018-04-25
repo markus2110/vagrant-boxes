@@ -22,6 +22,8 @@ case node['platform']
       :mcrypt     => "php#{default['php']['default']['version']}-mcrypt",
       :gd         => "php#{default['php']['default']['version']}-gd",
       :memcached  => "php#{default['php']['default']['version']}-memcached",
+      :apcu       => "php#{default['php']['default']['version']}-apcu",
+      
     }
 
     # Environment configuration
@@ -52,7 +54,7 @@ case node['platform']
       default['php']['default']['packages'][:memcached] = "php-memcached"
       default['php']['default']['packages'][:imagick]   = "php-imagick"
       default['php']['default']['packages'][:xdebug]    = "php-xdebug"
-
+      default['php']['default']['packages'][:apcu]      = "php-apcu"
     end
 
   when 'redhat', 'centos', 'fedora'
