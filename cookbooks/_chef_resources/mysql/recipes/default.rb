@@ -43,5 +43,5 @@ end
 
 # restart the nginx
 service 'mysql' do
-  action [:restart]
+  action [:enable, :start]
 end
