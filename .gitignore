@@ -5,6 +5,7 @@
 !/cookbook/config.rb
 
 /*/sql_dumps/*.sql
+/*/sql_dumps/*.backup
 /*/nginx/*.conf
 
 # Chef
