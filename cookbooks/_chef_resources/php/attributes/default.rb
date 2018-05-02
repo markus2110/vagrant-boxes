@@ -15,6 +15,7 @@ case node['platform']
       :fpm        => "php#{default['php']['default']['version']}-fpm",
       :cli        => "php#{default['php']['default']['version']}-cli",
       :mysql      => "php#{default['php']['default']['version']}-mysql",
+      :pgsql      => "php#{default['php']['default']['version']}-pgsql",
       :common     => "php#{default['php']['default']['version']}-common",
       :curl       => "php#{default['php']['default']['version']}-curl",
       :dev        => "php#{default['php']['default']['version']}-dev",
