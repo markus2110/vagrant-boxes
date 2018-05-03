@@ -82,11 +82,12 @@ Vagrant.configure($VAGRANTFILE_API_VERSION) do |config|
         "../cookbooks/_chef_resources",
     ]
     chef.run_list = [
-        "recipe[environment_essentials]",
-        "recipe[php]",
-        "recipe[nginx]",
-        "recipe[mysql]",
-        "recipe[elasticsearch]",
+#        "recipe[environment_essentials]",
+#        "recipe[php]",
+#        "recipe[nginx]",
+#        "recipe[mysql]",
+        "recipe[pgsql]",
+#        "recipe[elasticsearch]",
     ]
 
     chef.json = $CHEF_ATTRIBUTES
