@@ -38,15 +38,15 @@
 # The default values of these variables are driven from the -D command-line
 # option or PGDATA environment variable, represented here as ConfigDir.
 
-data_directory = '/var/lib/postgresql/9.5/main'		# use data in another directory
+data_directory = '/var/lib/postgresql/<%= @version %>/main'		# use data in another directory
 					# (change requires restart)
-hba_file = '/etc/postgresql/9.5/main/pg_hba.conf'	# host-based authentication file
+hba_file = '/etc/postgresql/<%= @version %>/main/pg_hba.conf'	# host-based authentication file
 					# (change requires restart)
-ident_file = '/etc/postgresql/9.5/main/pg_ident.conf'	# ident configuration file
+ident_file = '/etc/postgresql/<%= @version %>/main/pg_ident.conf'	# ident configuration file
 					# (change requires restart)
 
 # If external_pid_file is not explicitly set, no extra PID file is written.
-external_pid_file = '/var/run/postgresql/9.5-main.pid'			# write an extra PID file
+external_pid_file = '/var/run/postgresql/<%= @version %>-main.pid'			# write an extra PID file
 					# (change requires restart)
 
 
@@ -56,7 +56,7 @@ external_pid_file = '/var/run/postgresql/9.5-main.pid'			# write an extra PID fi
 
 # - Connection Settings -
 
-listen_addresses = '<%= node['pgsql']['default']['listen_addresses'] %>'		# what IP address(es) to listen on;
+listen_addresses = '<%= @listenAddresses %>'		# what IP address(es) to listen on;
 					# comma-separated list of addresses;
 					# defaults to 'localhost'; use '*' for all
 					# (change requires restart)
@@ -433,7 +433,6 @@ log_line_prefix = '%t [%p-%l] %q%u@%d '			# special values:
 					#   %q = stop here in non-session
 					#        processes
 					#   %% = '%'
-					# e.g. '<%u%%%d> '
 #log_lock_waits = off			# log lock waits >= deadlock_timeout
 #log_statement = 'none'			# none, ddl, mod, all
 #log_replication_commands = off
@@ -460,8 +459,9 @@ log_timezone = 'UTC'
 #track_counts = on
 #track_io_timing = off
 #track_functions = none			# none, pl, all
-#track_activity_query_size = 1024	# (change requires restart)
-stats_temp_directory = '/var/run/postgresql/9.5-main.pg_stat_tmp'
+#track_activity_query_size = 1024	
+stats_temp_directory = '<%= @stats_temp_directory %>'
+# (change requires restart)
 
 
 # - Statistics Monitoring -

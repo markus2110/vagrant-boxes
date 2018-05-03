@@ -14,6 +14,13 @@ end
 template "Installing config file" do
   path "#{node['pgsql']['default']['config_path']}/postgresql.conf"
   source 'postgresql.conf.erb'
+
+  variables(
+    version: node['pgsql']['default']['version'],
+    listenAddresses: node['pgsql']['default']['listen_addresses'],
+    stats_temp_directory: "#{node['pgsql']['default']['version']}-main.pg_stat_tmp"
+)     
+
 end
 
 
