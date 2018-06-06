@@ -86,7 +86,7 @@ Vagrant.configure($VAGRANTFILE_API_VERSION) do |config|
         "recipe[php]",
         "recipe[nginx]",
         "recipe[mysql]",
-        "recipe[pgsql]",
+        #"recipe[pgsql]",
         "recipe[elasticsearch]"
     ]
 
