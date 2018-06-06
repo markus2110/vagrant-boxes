@@ -17,3 +17,18 @@ apt_update 'daily' do
 end
 
 include_recipe 'environment_essentials::packages'
+
+
+#create a swap file
+script "Create swap " do
+  interpreter 'bash'
+  user 'root'
+  code <<-EOF
+    sudo fallocate -l 2G /swapfile
+    sudo chmod 600 /swapfile
+    sudo mkswap /swapfile
+    sudo swapon /swapfile
+    sudo swapon -s
+    free -m
+  EOF
+end
