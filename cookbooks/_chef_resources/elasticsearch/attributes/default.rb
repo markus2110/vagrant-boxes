@@ -1,2 +1,2 @@
-default['elasticsearch']['version'] = '6.2.3'
+default['elasticsearch']['version'] = '2.4.6'
 default['elasticsearch']['port']    = '9200'
