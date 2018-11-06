@@ -1,0 +1,14 @@
+<VirtualHost *:80>
+    ServerName neos-demo.loc
+    ServerAdmin webmaster@localhost
+    DocumentRoot <%= node['apache2']['default']['project_root'] %>/projects/neos-demo/Web
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+    
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride all
+        Require all granted
+    </Directory>
+    
+</VirtualHost>
