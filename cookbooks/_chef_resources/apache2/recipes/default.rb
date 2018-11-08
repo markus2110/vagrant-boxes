@@ -11,6 +11,15 @@ package 'libapache2-mod-php7.2' do
   action :install
 end
 
+execute "enable-php72-mod" do
+  command "a2enmod php7.2"
+  action :nothing
+end
+#sudo a2enmod rewrite
+execute "enable-apache-rewrite-mod" do
+  command "a2enmod rewrite"
+  action :nothing
+end
 
 
 # Remove existing directory
