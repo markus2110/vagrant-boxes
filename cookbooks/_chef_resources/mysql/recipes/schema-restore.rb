@@ -6,11 +6,11 @@
 
 # Copy all SQL DUMPs from mysql->fiels->sql_dumps
 # Create tmp sql dump directory
-directory "#{node['mysql']['default']['sqldump_copy_directory']}" do
-  mode '0755'
-  recursive true
-  action :delete
-end
+# directory "#{node['mysql']['default']['sqldump_copy_directory']}" do
+#   mode '0755'
+#   recursive true
+#   action :delete
+# end
 
 
 # directory "#{node['mysql']['default']['sqldump_copy_directory']}" do
@@ -29,7 +29,7 @@ end
   #   content IO.read(sqlDump)
   # end
 
-# Restore call SQL Files from mysql recipe
+# Restores SQL Files from mysql recipe
 Dir.glob("#{__dir__}/../#{node['mysql']['default']['sqldump_directory']}/*.sql").each do |sqlDump|
   script "Import Dump from #{sqlDump}" do
     interpreter 'bash'
@@ -41,8 +41,8 @@ Dir.glob("#{__dir__}/../#{node['mysql']['default']['sqldump_directory']}/*.sql")
   end  
 end
 
-# Restore call SQL Files from vagrant directory
-Dir.glob("/vagrant/sql_dumps/*.sql").each do |sqlDump|
+# Restores call SQL Files from vagrant directory
+Dir.glob("#{node['mysql']['default']['sql_restore_directory']}/*.sql").each do |sqlDump|
   script "Import Dump from #{sqlDump}" do
     interpreter 'bash'
     user 'root'
