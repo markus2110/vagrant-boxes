@@ -60,6 +60,15 @@ link "#{node['nginx']['default']['config_path']}sites-enabled/default" do
   link_type :symbolic
 end
 
+# Add the project config file
+template "#{node['nginx']['default']['config_path']}sites-available/project.loc.conf" do
+  source 'project.loc.conf.erb'
+end
+link "#{node['nginx']['default']['config_path']}sites-enabled/project.loc.conf" do
+  to "#{node['nginx']['default']['config_path']}sites-available/project.loc.conf"
+  link_type :symbolic
+end
+
 # Add the symfony project config file
 template "#{node['nginx']['default']['config_path']}sites-available/symfony_project.sf.conf" do
   source 'symfony_project.sf.conf.erb'
@@ -69,7 +78,7 @@ link "#{node['nginx']['default']['config_path']}sites-enabled/symfony_project.sf
   link_type :symbolic
 end
 
-# Add the symfony project config file
+# Add the test project config file
 template "#{node['nginx']['default']['config_path']}sites-available/test.loc.conf" do
   source 'test.loc.conf.erb'
 end
