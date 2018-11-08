@@ -5,7 +5,7 @@
 # Copyright:: 2018, The Authors, All Rights Reserved.
 
 
-# Copy all SQL files from VAGRANT sync folder
+# Copy all ServerConfig files from VAGRANT sync folder
 Dir.glob("/vagrant/nginx/*.conf").each do |nginxconfig|
   destFileName = "/etc/nginx/sites-available/#{File.basename(nginxconfig)}"
   # Copy the config file
