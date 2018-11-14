@@ -1,0 +1,12 @@
+[Unit]
+Description=Mailcatcher webmail
+Documentation=http://mailcatcher.me/
+After=network.service vagrant.mount
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/mailcatcher --foreground --ip "<%= node['catchmail']['ip'] %>" --http-port <%= node['catchmail']['http_port'] %> --smtp-port <%= node['catchmail']['smtp_port'] %>
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

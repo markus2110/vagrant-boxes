@@ -85,7 +85,8 @@ Vagrant.configure($VAGRANTFILE_API_VERSION) do |config|
 #        'recipe[nginx]',
         'recipe[apache2]',
         'recipe[mysql]',
-#        'recipe[elasticsearch]'
+        'recipe[elasticsearch]',
+        'recipe[catchmail]'
     ]
 
     chef.json = $CHEF_ATTRIBUTES
