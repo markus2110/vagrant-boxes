@@ -26,6 +26,10 @@ $VM_SYNC_FOLDERS = [
 # Defined in '../cookbooks/config.rb'
 # $CHEF_COOKBOOKS     = ["../cookbooks"]
 
+$CHEF_RECIPES = [
+    'recipe[nginx_php]'
+]
+
 $CHEF_ATTRIBUTES = {
     # Set XDEBUG Remote IP
 #    'php' => {
