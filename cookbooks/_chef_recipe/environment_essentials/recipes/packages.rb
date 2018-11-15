@@ -1,25 +1,25 @@
-#
 # Cookbook:: environment_essentials
 # Recipe:: packages
 #
 # Copyright:: 2018, The Authors, All Rights Reserved.
 
+
+
 # Essential packages to installe
-essentialPackages = node['environment_essentials']['packages']
-essentialPackages.each do |packageName,serviceConfig|
+essential_packages = node['environment_essentials']['packages']
+essential_packages.each do |package_name,service_config|
+  # Install the package
+  package package_name do
+    action :install
+  end
 
-    # Install the package
-    package packageName do
-        action :install
+  # start the service if declared as service
+  if service_config
+    service package_name do
+      supports status: service_config[:supportsStatus]
+      action service_config[:action]
     end
 
-    # start the service if declared as service
-    if serviceConfig
-        service packageName do
-          supports status: serviceConfig[:supportsStatus]
-          action serviceConfig[:action]
-        end
-
-        Chef::Log.info "#{packageName} service started !"
-    end
+    Chef::Log.info "#{package_name} service started !"
+  end
 end
