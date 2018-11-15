@@ -1,0 +1,131 @@
+<?php
+$domainname = "<%= node['nginx']['default']['server_suffix'] %>.loc";
+$projectDir = "<%= node['nginx']['default']['project_root'] %>/projects/";
+$testDir = $projectDir."/../test";
+$plainProjectStructure = "http://%s.%s";
+$sfProjectStructure = "http://%s-sf.%s";
+$sfDevProjectStructure = "http://%s-sf-dev.%s";
+$testStructure = "http://test.%s/%s";
+
+function is_sf_project($path){
+    return (file_exists($path."/web/app.php"));
+}
+
+function is_plain_project($path){
+    return (file_exists($path."/index.php") || file_exists($path."/index.html"));
+}
+
+?>
+<html>
+    <head>
+        <style>
+            th{
+                text-align: left;
+                border-bottom: solid 1px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <h1>PHP <?php echo phpversion() ?> is running</h1>
+        <hr />
+
+        <table>
+          <tr>
+            <td>platform</td><td><%= node['platform'] %></td>
+          </tr>
+          <tr>
+            <td>platform_version</td><td><%= node['platform_version'] %></td>
+          </tr>
+          <tr>
+            <td>ipaddress</td><td><%= node['ipaddress'] %></td>
+          </tr>
+          <tr>
+            <td>hostname</td><td><%= node['hostname'] %></td>
+          </tr>
+          <tr>
+            <td>domain</td><td><%= node['domain'] %></td>
+          </tr>
+        </table>
+
+        <hr />
+
+        <table>
+          <tr>
+            <th>Project Domains</th>
+            <th>Type</th>
+          </tr>
+
+          <?php foreach(scandir($projectDir) as $project) : ?>
+          <?php if(is_dir($projectDir."/". $project) && !preg_match("/^\./", $project)) : ?>
+
+          <?php if(is_sf_project($projectDir."/". $project)) : ?>
+          <tr>
+            <td>
+                <?php $url = sprintf($sfProjectStructure, $project, $domainname) ?>
+                <a href="<?php echo $url ?>" target="_blank"><?php echo $url ?></a>
+            </td>
+            <td>(Symfony Project)</td>
+          </tr>
+
+          <tr>
+            <td>
+                <?php $url = sprintf($sfDevProjectStructure, $project, $domainname) ?>
+                <a href="<?php echo $url ?>" target="_blank"><?php echo $url ?></a>
+            </td>
+            <td>(Symfony Project)</td>
+          </tr>          
+
+          <?php endif; ?>
+
+          <?php if(is_plain_project($projectDir."/". $project)) : ?>
+          <tr>
+            <td>
+                <?php $url = sprintf($plainProjectStructure, $project, $domainname) ?>
+                <a href="<?php echo $url ?>" target="_blank"><?php echo $url ?></a>
+            </td>
+            <td>(Plain PHP Project)</td>
+          </tr>
+          <?php endif; ?>
+
+          <?php endif; ?>
+          <?php endforeach; ?>
+        </table>
+
+        <br />
+
+        <table>
+          <tr>
+            <th>Test Domains</th>
+            <th>Type</th>
+          </tr>
+
+          <?php foreach(scandir($testDir) as $project) : ?>
+          <?php if(is_dir($testDir."/". $project) && !preg_match("/^\./", $project)) : ?>
+
+          <?php if(is_sf_project($testDir."/". $project)) : ?>
+          <tr>
+            <td>
+                <?php $url = sprintf($testStructure, $domainname, $project) ?>
+                <a href="<?php echo $url ?>" target="_blank"><?php echo $url ?></a>
+            </td>
+            <td>(Symfony Project)</td>
+          </tr>
+          <?php endif; ?>
+
+          <?php if(is_plain_project($testDir."/". $project)) : ?>
+          <tr>
+            <td>
+                <?php $url = sprintf($testStructure, $domainname, $project) ?>
+                <a href="<?php echo $url ?>" target="_blank"><?php echo $url ?></a>
+            </td>
+            <td>(Plain PHP Project)</td>
+          </tr>
+          <?php endif; ?>
+
+          <?php endif; ?>
+          <?php endforeach; ?>
+        </table>
+
+    </body>
+</html>
