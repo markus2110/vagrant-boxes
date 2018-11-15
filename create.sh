@@ -127,6 +127,10 @@ echo "require '../cookbooks/config.rb'
 # Defined in '../cookbooks/config.rb'
 # \$CHEF_COOKBOOKS     = [\"../cookbooks\"]
 
+\$CHEF_RECIPES = [
+    'recipe[nginx_php]'
+]
+
 \$CHEF_ATTRIBUTES = {
     # Set XDEBUG Remote IP
 #    'php' => {
@@ -230,9 +234,7 @@ Vagrant.configure(\$VAGRANTFILE_API_VERSION) do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision 'chef_solo' do |chef|
     chef.cookbooks_path = \$CHEF_COOKBOOKS
-    chef.run_list = [
-        'recipe[nginx_php]'
-    ]
+    chef.run_list = \$CHEF_RECIPES
     chef.json = \$CHEF_ATTRIBUTES
   end
 end
