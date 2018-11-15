@@ -1,26 +1,97 @@
 #!/bin/bash
 
+DEFAULT_VAGRANTFILE_BOX="ubuntu/xenial64"
+DEFAULT_VAGRANTFILE_NETWORK_IP="192.168.33.10"
+DEFAULT_VAGRANTFILE_HOST_IP="192.168.33.1"
+DEFAULT_VAGRANTFILE_NETWORK_HOST_PORT="8080"
+DEFAULT_VM_NAME="ubuntu_xenial64"
+DEFAULT_VM_MEMORY="1024"
+DEFAULT_VM_CPUS="1"
+FOLDER_RESULT="FIRST";
+
+function checkFolder() {
+    if [ -d $1 ]; then
+        echo "The Vagrant folder '$1' exists, please use a different name!"
+        FOLDER_RESULT="EXISTS";
+    else 
+        FOLDER_RESULT="OK"
+    fi    
+} 
+
 echo "Create a new Vagrant Box";
-echo "Box name:"
-read VAGRANTFILE_BOX ;
+echo "-------------------------"
 
-echo "Box IP:"
+until [  $FOLDER_RESULT = "OK" ]; do
+    echo "VM Name ($DEFAULT_VM_NAME)"
+    read VM_NAME;
+    if [ -z $VM_NAME ] 
+    then
+        VM_NAME=$DEFAULT_VM_NAME
+    fi;
+    checkFolder $VM_NAME
+done
+
+echo "Vagrant Box ($DEFAULT_VAGRANTFILE_BOX):"
+read VAGRANTFILE_BOX;
+if [ -z $VAGRANTFILE_BOX ] 
+then
+    VAGRANTFILE_BOX=$DEFAULT_VAGRANTFILE_BOX
+fi;
+
+echo "Box IP ($DEFAULT_VAGRANTFILE_NETWORK_IP):"
 read VAGRANTFILE_NETWORK_IP ;
+if [ -z $VAGRANTFILE_NETWORK_IP ] 
+then
+    VAGRANTFILE_NETWORK_IP=$DEFAULT_VAGRANTFILE_NETWORK_IP
+fi;
 
-echo "HOST IP:"
+echo "HOST IP ($DEFAULT_VAGRANTFILE_HOST_IP):"
 read VAGRANTFILE_HOST_IP;
+if [ -z $VAGRANTFILE_HOST_IP ] 
+then
+    VAGRANTFILE_HOST_IP=$DEFAULT_VAGRANTFILE_HOST_IP
+fi;
 
-echo "Host Port"
+echo "Host Port ($DEFAULT_VAGRANTFILE_NETWORK_HOST_PORT)"
 read VAGRANTFILE_NETWORK_HOST_PORT;
+if [ -z $VAGRANTFILE_NETWORK_HOST_PORT ] 
+then
+    VAGRANTFILE_NETWORK_HOST_PORT=$DEFAULT_VAGRANTFILE_NETWORK_HOST_PORT
+fi;
 
-echo "VM Name"
-read VM_NAME;
 
-echo "VM Memory"
+
+echo "VM Memory ($DEFAULT_VM_MEMORY)"
 read VM_MEMORY;
+if [ -z $VM_MEMORY ] 
+then
+    VM_MEMORY=$DEFAULT_VM_MEMORY
+fi;
 
-echo "VM CPUS"
+echo "VM CPUS ($DEFAULT_VM_CPUS)"
 read VM_CPUS;
+if [ -z $VM_CPUS ] 
+then
+    VM_CPUS=$DEFAULT_VM_CPUS
+fi;
+
+echo "Vagrant Box config:
+---------------------------------------------------------
+Vagrant Box :   $VAGRANTFILE_BOX
+IP :            $VAGRANTFILE_NETWORK_IP
+HOST IP :       $VAGRANTFILE_HOST_IP
+HOST_PORT :     $VAGRANTFILE_NETWORK_HOST_PORT
+VM Name :       $VM_NAME
+Memory :        $VM_MEMORY
+CPUs :          $VM_CPUS
+---------------------------------------------------------
+
+Generate the Box ? (y/n)"
+read GENERATE;
+if [ "$GENERATE" != "y" ] 
+then
+    exit;
+fi;
 
 
 # create the folder
@@ -29,65 +100,53 @@ cd $VM_NAME;
 
 # create the config file
 echo "require '../cookbooks/config.rb'
-# overwrites the vagrant settings in ../cookbook/config.rb
-\$VAGRANTFILE_BOX                = '$VAGRANTFILE_BOX'
-\$VAGRANTFILE_NETWORK_IP         = '$VAGRANTFILE_NETWORK_IP'
 
-\$VM_NAME    = '$VM_NAME'
-\$VM_MEMORY  = $VM_MEMORY
-\$VM_CPUS    = $VM_CPUS
+# overwrites the vagrant settings in ../cookbook/config.rb
+#\$VAGRANTFILE_API_VERSION        = \"2\"
+#\$VAGRANTFILE_SSH_AGENT_FORWARD  = true
+#\$VAGRANTFILE_HOST_IP            = \"192.168.33.1\"
+\$VAGRANTFILE_BOX                = \"$VAGRANTFILE_BOX\"
+\$VAGRANTFILE_NETWORK_IP         = \"$VAGRANTFILE_NETWORK_IP\"
+
+# VM Config
+#\$VM_SHOW_GUI  = false
+\$VM_NAME       = \"$VM_NAME\"
+\$VM_MEMORY     = $VM_MEMORY
+\$VM_CPUS       = $VM_CPUS
 
 # VM Port forwarding
 \$VM_PORT_FORWARDING = [
-    { :GUEST_PORT => 80, :HOST_PORT => '$VAGRANTFILE_NETWORK_HOST_PORT' }
+    { :GUEST_PORT => 80, :HOST_PORT => \"$VAGRANTFILE_NETWORK_HOST_PORT\" }
 ]
 
 # VM Sync Folders
 \$VM_SYNC_FOLDERS = [
-
+    { :HOST_PATH => \"/var/www\", :GUEST_PATH => \"/vagrant_data\", :TYPE => \"nfs\" }
 ]
+
+# Defined in '../cookbooks/config.rb'
+# \$CHEF_COOKBOOKS     = [\"../cookbooks\"]
 
 \$CHEF_ATTRIBUTES = {
     # Set XDEBUG Remote IP
-    'php' => {
-        'default' => {
-            'xdebug' => {
-                'remote_host' => \$VAGRANTFILE_HOST_IP
-            }
-        }
-    }
-}" >> "config.rb"
+#    'php' => {
+#        'default' => {
+#            'xdebug' => {
+#                'remote_host' => \$VAGRANTFILE_HOST_IP
+#            }
+#        }
+#    },
 
-# create the config.rb.dist file
-echo "require '../cookbooks/config.rb'
-
-# overwrites the vagrant settings in ../cookbook/config.rb
-\$VAGRANTFILE_BOX                = '$VAGRANTFILE_BOX'
-\$VAGRANTFILE_NETWORK_IP         = '$VAGRANTFILE_NETWORK_IP'
-
-# VM Port forwarding
-\$VM_PORT_FORWARDING = [
-    { :GUEST_PORT => 80, :HOST_PORT => '$VAGRANTFILE_NETWORK_HOST_PORT' }
-]
-
-# VM Sync Folders
-\$VM_SYNC_FOLDERS = [
-    { :HOST_PATH => '/from/path1', :GUEST_PATH => '/to/path1', :TYPE => 'nfs' },
-    { :HOST_PATH => '/from/path2', :GUEST_PATH => '/to/path2', :TYPE => 'nfs' },
-    { :HOST_PATH => '/from/path3', :GUEST_PATH => '/to/path3', :TYPE => 'nfs' },
-]
-
-# Overwrite / extend Chef attributes 
-\$CHEF_ATTRIBUTES = {
-    # Set XDEBUG Remote IP
-    'php' => {
-        'default' => {
-            'xdebug' => {
-                'remote_host' => $VAGRANTFILE_HOST_IP
-            }
-        }
-    }
+#    'nginx' => {
+#        'default' => {
+#            'server_suffix' => \$VM_NAME
+#        }
+#    }    
 }" >> "config.rb.dist"
+
+# Copy dist file
+cp config.rb.dist config.rb;
+
 
 # create the Vagrant file
 echo "# -*- mode: ruby -*-
@@ -170,15 +229,10 @@ Vagrant.configure(\$VAGRANTFILE_API_VERSION) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision 'chef_solo' do |chef|
-    chef.cookbooks_path = '../cookbooks/_chef_resources'
+    chef.cookbooks_path = \$CHEF_COOKBOOKS
     chef.run_list = [
-        'recipe[environment_essentials]',
-        'recipe[php]',
-        'recipe[nginx]',
-        'recipe[mysql]',
-        'recipe[elasticsearch]'
+        'recipe[nginx_php]'
     ]
-
     chef.json = \$CHEF_ATTRIBUTES
   end
 end
