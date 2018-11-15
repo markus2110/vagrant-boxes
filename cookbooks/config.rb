@@ -20,3 +20,6 @@ $VM_PORT_FORWARDING = [
 $VM_SYNC_FOLDERS = [
     { :HOST_PATH => "/var/www", :GUEST_PATH => "/vagrant_data", :TYPE => "nfs" },
 ]
+
+$CHEF_COOKBOOKS     = ["../cookbooks"]
+$CHEF_ATTRIBUTES    = {}
