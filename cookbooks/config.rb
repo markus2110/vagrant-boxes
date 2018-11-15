@@ -22,4 +22,5 @@ $VM_SYNC_FOLDERS = [
 ]
 
 $CHEF_COOKBOOKS     = ["../cookbooks"]
+$CHEF_RECIPES       = []
 $CHEF_ATTRIBUTES    = {}
