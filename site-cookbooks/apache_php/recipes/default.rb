@@ -7,9 +7,9 @@
 
 include_recipe 'apache2::default'
 
-apache_conf 'default-site' do
-  enable true
-end
+#apache_conf do
+#  enable true
+#end
 
 mysql_service '5.7' do
   port '3306'
