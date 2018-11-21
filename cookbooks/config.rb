@@ -21,6 +21,6 @@ $VM_SYNC_FOLDERS = [
     { :HOST_PATH => "/var/www", :GUEST_PATH => "/vagrant_data", :TYPE => "nfs" },
 ]
 
-$CHEF_COOKBOOKS     = ["../cookbooks", '../cookbooks/_chef_recipe']
+$CHEF_COOKBOOKS     = ["../cookbooks", '../cookbooks/_chef_recipe', '../cookbooks/_chef_recipe/vendor']
 $CHEF_RECIPES       = []
 $CHEF_ATTRIBUTES    = {}
