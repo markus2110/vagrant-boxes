@@ -2,7 +2,7 @@
 
 /*/*.log
 /*/config.rb
-!/cookbook/config.rb
+!/vms/config.rb
 
 /*/sql_dumps/*.sql
 /*/sql_dumps/*.backup
@@ -11,5 +11,7 @@
 # Chef
 .delivery/
 
+# exclude test-vms
+/vms/test-*
 
 Berksfile.lock
