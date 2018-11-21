@@ -5,9 +5,14 @@
 # Copyright:: 2018, The Authors, All Rights Reserved.
 
 pgsql_packages = node['pgsql']['default']['packages']
-package 'Install PGSQL Packages' do
+package "Install PGSQL Package #{pgsql_packages[:server]}" do
   action :install
-  package_name pgsql_packages.values
+  package_name pgsql_packages[:server]
+end
+
+package "Install PGSQL Package #{pgsql_packages[:client]}" do
+  action :install
+  package_name pgsql_packages[:client]
 end
 
 
