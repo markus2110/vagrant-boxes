@@ -10,3 +10,7 @@
 
 # Chef
 .delivery/
+
+# Chef vendor recipes
+/cookbooks/_chef_recipe/vendor/*
+!/cookbooks/_chef_recipe/vendor/.gitkeep
