@@ -4,12 +4,12 @@ require '../cookbooks/config.rb'
 #$VAGRANTFILE_API_VERSION        = "2"
 #$VAGRANTFILE_SSH_AGENT_FORWARD  = true
 #$VAGRANTFILE_HOST_IP            = "192.168.33.1"
-$VAGRANTFILE_BOX                = "ubuntu/xenial64"
-$VAGRANTFILE_NETWORK_IP         = "10.0.99.100"
+$VAGRANTFILE_BOX                = "debian/jessie64"
+$VAGRANTFILE_NETWORK_IP         = "192.168.33.10"
 
 # VM Config
 #$VM_SHOW_GUI  = false
-$VM_NAME       = "ubuntu16"
+$VM_NAME       = "debian8"
 $VM_MEMORY     = 2048
 $VM_CPUS       = 2
 
