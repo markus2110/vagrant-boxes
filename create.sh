@@ -5,8 +5,11 @@ DEFAULT_VAGRANTFILE_NETWORK_IP="192.168.33.10"
 DEFAULT_VAGRANTFILE_HOST_IP="192.168.33.1"
 DEFAULT_VAGRANTFILE_NETWORK_HOST_PORT="8080"
 DEFAULT_VM_NAME="ubuntu_xenial64"
-DEFAULT_VM_MEMORY="1024"
+DEFAULT_VM_MEMORY="2048"
 DEFAULT_VM_CPUS="1"
+
+VMS_FOLDER="vms"
+GLOBAL_CONFIG="../config.rb"
 FOLDER_RESULT="FIRST";
 
 function checkFolder() {
@@ -28,7 +31,7 @@ until [  $FOLDER_RESULT = "OK" ]; do
     then
         VM_NAME=$DEFAULT_VM_NAME
     fi;
-    checkFolder $VM_NAME
+    checkFolder "$VMS_FOLDER/$VM_NAME"
 done
 
 echo "Vagrant Box ($DEFAULT_VAGRANTFILE_BOX):"
@@ -95,16 +98,20 @@ fi;
 
 
 # create the folder
-mkdir $VM_NAME;
-cd $VM_NAME;
+VMS_PATH="$VMS_FOLDER/$VM_NAME"
+mkdir $VMS_PATH;
+
+echo "$VMS_PATH created!"
+
+cd $VMS_PATH;
 
 # create the config file
-echo "require '../cookbooks/config.rb'
+echo "require '$GLOBAL_CONFIG'
 
-# overwrites the vagrant settings in ../cookbook/config.rb
+# overwrites the vagrant settings in $GLOBAL_CONFIG
 #\$VAGRANTFILE_API_VERSION        = \"2\"
 #\$VAGRANTFILE_SSH_AGENT_FORWARD  = true
-#\$VAGRANTFILE_HOST_IP            = \"192.168.33.1\"
+#\$VAGRANTFILE_HOST_IP            = \"$VAGRANTFILE_HOST_IP\"
 \$VAGRANTFILE_BOX                = \"$VAGRANTFILE_BOX\"
 \$VAGRANTFILE_NETWORK_IP         = \"$VAGRANTFILE_NETWORK_IP\"
 
@@ -124,7 +131,7 @@ echo "require '../cookbooks/config.rb'
     { :HOST_PATH => \"/var/www\", :GUEST_PATH => \"/vagrant_data\", :TYPE => \"nfs\" }
 ]
 
-# Defined in '../cookbooks/config.rb'
+# Defined in '$GLOBAL_CONFIG'
 # \$CHEF_COOKBOOKS     = [\"../cookbooks\"]
 
 \$CHEF_RECIPES = [
@@ -239,3 +246,7 @@ Vagrant.configure(\$VAGRANTFILE_API_VERSION) do |config|
   end
 end
 " >> "Vagrantfile"
+
+echo "--------------------------------"
+echo "Switch to $VMS_PATH"
+echo "RUN: vagrant up"
