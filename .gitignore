@@ -4,10 +4,6 @@
 /*/config.rb
 !/vms/config.rb
 
-/*/sql_dumps/*.sql
-/*/sql_dumps/*.backup
-/*/nginx/*.conf
-
 # Chef
 .delivery/
 
