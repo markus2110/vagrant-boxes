@@ -5,15 +5,7 @@
 # Copyright:: 2018, The Authors, All Rights Reserved.
 
 
-include_recipe 'apache2::default'
+# Installs the enviroment essentials
+include_recipe 'environment_essentials'
 
-#apache_conf do
-#  enable true
-#end
-
-mysql_service '5.7' do
-  port '3306'
-  version '5.7'
-  initial_root_password 'change me'
-  action [:create, :start]
-end
+include_recipe 'apache_php::mysql'
