@@ -1,0 +1,5 @@
+[mysqld]
+#
+# Instead of skip-networking the default is now to listen only on
+# localhost which is more compatible and is not less secure.
+bind-address            = <%= node['mysql']['bind-address'] %>
