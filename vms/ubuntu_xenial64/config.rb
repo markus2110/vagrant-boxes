@@ -1,4 +1,4 @@
-require '../cookbooks/config.rb'
+require '../config.rb'
 
 
 # overwrites the vagrant settings in ../cookbook/config.rb

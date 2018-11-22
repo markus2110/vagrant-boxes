@@ -80,15 +80,15 @@ Vagrant.configure($VAGRANTFILE_API_VERSION) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "chef_solo" do |chef|
-    chef.cookbooks_path = "../cookbooks/_chef_resources"
+    chef.cookbooks_path = $CHEF_COOKBOOKS
     chef.run_list = [
-        "recipe[environment_essentials]",
-        "recipe[php]",
-        "recipe[nginx]",
-        "recipe[mysql]",
-        #"recipe[pgsql]",
-        "recipe[elasticsearch]",
-        "recipe[catchmail]"
+#       "recipe[environment_essentials]",
+#       "recipe[php]",
+#        "recipe[nginx]",
+#        "recipe[mysql]",
+#        "recipe[pgsql]",
+#        "recipe[elasticsearch]",
+#        "recipe[catchmail]"
     ]
 
     chef.json = $CHEF_ATTRIBUTES
