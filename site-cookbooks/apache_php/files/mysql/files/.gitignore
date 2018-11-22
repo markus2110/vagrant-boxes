@@ -1,2 +1,0 @@
-sql_dumps/*.*
-!sql_dumps/test-db.sql
