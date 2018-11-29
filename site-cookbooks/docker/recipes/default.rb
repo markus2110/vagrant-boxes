@@ -32,8 +32,7 @@ end
   end
 end
 
-
-#https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce
+# https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce
 
 # Install Docker CE
 include_recipe 'docker::docker_ce'
