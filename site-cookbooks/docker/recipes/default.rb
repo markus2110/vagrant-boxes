@@ -25,7 +25,7 @@ end
 # end
 
 # Install some essential packages
-%w(curl nfs-kernel-server).each do |package_name|
+%w(curl nfs-kernel-server git htop).each do |package_name|
   # Install the package
   package package_name do
     action :install
