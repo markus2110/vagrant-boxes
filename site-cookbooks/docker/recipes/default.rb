@@ -37,3 +37,10 @@ end
 # Install Docker CE
 include_recipe 'docker::docker_ce'
 include_recipe 'docker::docker_compose'
+
+
+group 'docker' do
+  action :modify
+  members 'vagrant'
+  append true
+end
