@@ -1,8 +1,7 @@
 .vagrant/
 
-/*/*.log
-/*/config.rb
-!/vms/config.rb
+/**/*.log
+/vms/*/config.rb
 
 # Chef
 .delivery/
