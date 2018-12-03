@@ -47,7 +47,9 @@ Vagrant.configure($VAGRANTFILE_API_VERSION) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   $VM_SYNC_FOLDERS.each do |syncConfig|
-    config.vm.synced_folder syncConfig[:HOST_PATH], syncConfig[:GUEST_PATH], :type => syncConfig[:TYPE]
+    config.vm.synced_folder syncConfig[:HOST_PATH], syncConfig[:GUEST_PATH],
+        type: syncConfig[:TYPE],
+        linux__nfs_options: ['rw','no_subtree_check','all_squash','async']
   end
 
 
