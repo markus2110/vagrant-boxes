@@ -10,7 +10,7 @@ apt_update 'update' do
     action :update
 end
 
-# Upgrade 
+# Upgrade
 #        apt-get dist-upgrade -y
 #        apt-get upgrade -vagrant y
 
@@ -37,6 +37,7 @@ end
 # Install Docker CE
 include_recipe 'docker::docker_ce'
 include_recipe 'docker::docker_compose'
+include_recipe 'docker::copy_cleanup_script'
 
 
 group 'docker' do
