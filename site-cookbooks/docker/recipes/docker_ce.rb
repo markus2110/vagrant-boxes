@@ -7,7 +7,6 @@
   end
 end
 
-
 # Install using the repository
 # Before you install Docker CE for the first time on a new host machine, you need to set up the Docker repository. Afterward, you can install and update Docker from the repository.
 # Set up the repository
@@ -23,7 +22,6 @@ end
     action :install
   end
 end
-
 
 # 3. Add Docker’s official GPG key:
 script "Docker GPG key" do
@@ -44,9 +42,7 @@ apt_repository 'docker-repo' do
   action :add
 end
 
-
 # Install Docker CE
-
 
 # 1. Update the apt package index.
 script "Update the apt package" do
