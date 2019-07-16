@@ -30,3 +30,8 @@ $CHEF_RECIPES = [
 ]
 
 $CHEF_ATTRIBUTES = {}
+
+# $HOSTS = {
+#    main:   $VM_HOSTNAME,
+#    alias1: 'test.' + $VM_HOSTNAME
+#}

@@ -153,6 +153,11 @@ echo "require '$GLOBAL_CONFIG'
 #            'server_suffix' => \$VM_NAME
 #        }
 #    }    
+}
+
+\$HOSTS = {
+    main:   \$VM_NAME,
+    alias1: 'dev.' + \$VM_NAME
 }" >> "config.rb.dist"
 
 # Copy dist file
@@ -203,6 +208,20 @@ Vagrant.configure(\$VAGRANTFILE_API_VERSION) do |config|
   # Bridged networks make the machine appear as another physical device on
   # your network.
   # config.vm.network 'public_network'
+
+  # The hostname the machine should have. Defaults to nil. If nil, Vagrant will not manage the hostname.
+  # If set to a string, the hostname will be set on boot. 
+  # If set, Vagrant will update /etc/hosts on the guest with the configured hostname.
+  config.vm.hostname = \$VM_NAME  
+
+  # hosts settings (host machine)
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_host = true
+  config.hostmanager.manage_guest = false
+  config.hostmanager.ignore_private_ip = false
+  config.hostmanager.include_offline = true
+  config.hostmanager.aliases = \$HOSTS.values
+  
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
