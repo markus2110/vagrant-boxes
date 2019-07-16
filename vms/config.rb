@@ -1,5 +1,10 @@
-# Global Config File
+# Install required vagrant plugins
+required_plugins = %w( vagrant-vbguest vagrant-omnibus vagrant-hostmanager )
+required_plugins.each do |plugin|
+  exec "vagrant plugin install #{plugin}" unless Vagrant.has_plugin? plugin
+end
 
+# Global Config File
 $VAGRANTFILE_API_VERSION        = "2"
 $VAGRANTFILE_BOX                = "ubuntu/xenial64"
 $VAGRANTFILE_HOST_IP            = "192.168.33.1"
